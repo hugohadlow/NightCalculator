@@ -24,12 +24,16 @@ def calculate_night_flight(t_dep, t_arr, civil_twilight_origin, civil_twilight_d
         if dep > cvt_origin and arr > cvt_destination:  # Entire flight is during daylight.
             return "0:00"
 
+        late = False
+
     else: #Late flight
         if dep > cvt_origin and arr > cvt_destination:  # Entire flight is in darkness.
             return timedelta_to_string(arr - dep)
 
         if dep < cvt_origin and arr < cvt_destination:  # Entire flight is during daylight.
             return "0:00"
+
+        late = True
 
     flight_duration = arr-dep
     night_difference_at_origin = cvt_origin - dep
@@ -38,8 +42,10 @@ def calculate_night_flight(t_dep, t_arr, civil_twilight_origin, civil_twilight_d
 
     night_flight_time_seconds = night_difference_at_origin * flight_duration.total_seconds() / total_night_difference.total_seconds()
 
-    return timedelta_to_string(night_flight_time_seconds)
+    if late:
+        night_flight_time_seconds = flight_duration - night_flight_time_seconds
 
+    return timedelta_to_string(night_flight_time_seconds)
 
 def time_string_to_datetime(time_str):
     return datetime.strptime(time_str,"%H:%M")

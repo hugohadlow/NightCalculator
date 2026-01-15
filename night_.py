@@ -125,7 +125,8 @@ class TestNightFlight(unittest.TestCase):
         cvt_dest = "19:00"
 
         result = calculate_night_flight(dep, arr, cvt_origin, cvt_dest)
-        self.assertEqual("2:24", result)
+        self.assertEqual("3:36", result)
+        #For late flights, night flight time is the time *after* civil twilight
 
     def test_late_part_night_cvt_earlier_at_destination(self):
         """Scenario: Flight crosses sunset.
@@ -136,7 +137,7 @@ class TestNightFlight(unittest.TestCase):
         cvt_dest = "18:00"
 
         result = calculate_night_flight(dep, arr, cvt_origin, cvt_dest)
-        self.assertEqual("2:34", result)
+        self.assertEqual("3:25", result)
 
     def test_late_depart_after_dusk_arrive_before_dusk(self):
         """Scenario: Late flight departs after dusk, but somehow arrives before dusk.
@@ -147,7 +148,7 @@ class TestNightFlight(unittest.TestCase):
         cvt_dest = "22:00"
 
         result = calculate_night_flight(dep, arr, cvt_origin, cvt_dest)
-        self.assertEqual("0:36", result)
+        self.assertEqual("0:24", result)
 
 
 if __name__ == '__main__':
