@@ -1,11 +1,11 @@
 # Calculate night flight time for a flight.
 # Does not support crossing midnight.
 
-from datetime import datetime, timedelta
+from datetime import datetime
 
 
 def calculate_night_flight(t_dep, t_arr, civil_twilight_origin, civil_twilight_dest):
-    # Convert all inputs to Unix timestamps for math
+    # Convert all inputs from strings
     dep = time_string_to_datetime(t_dep)
     arr = time_string_to_datetime(t_arr)
     cvt_origin = time_string_to_datetime(civil_twilight_origin)
